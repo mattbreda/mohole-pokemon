@@ -25,8 +25,19 @@
       <img src="./assets/img/poke.png" alt="pokescript logo" />
       <span class="loader"></span>
     </div>
-    <div class="pokemon-info-modal">
-      
+    <div class="pokemon-info-modal" id="pokemon-modal" style="opacity: 0; pointer-events: none;">
+      <div class="pokemon-info-modal__container">
+        <button class="close-button" id="close-button">X</button>
+        <div class="inner-container image-container">
+          <img id="pokemon-image"/>
+        </div>
+        <div class="inner-container pokemon-info">
+          <div id="pokemon-name"></div>
+          <div id="stats-container">
+
+          </div>
+        </div>
+      </div>
     </div>
     <script type="module" src="/main.js"></script>
   </body>

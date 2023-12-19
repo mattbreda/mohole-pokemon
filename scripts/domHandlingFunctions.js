@@ -1,14 +1,20 @@
 import { pokemonList } from "./pokemon-list";
-import { pokedex, typesContainer } from "./domElements";
+import { closeButton, pokedex, pokemonImg, pokemonModal, pokemonName, statsContainer, typesContainer } from "./domElements";
 import fetchPokemonData from "./api";
 const pokemonTypesList = [];
 
 let filteredPokemons = [...pokemonList];
 const selectedTypes = [];
 
+closeButton.addEventListener('click',function() {
+  pokemonModal.style.opacity= 0
+  pokemonModal.style.pointerEvents = 'none'
+})
+
 function checkIfTypeIsSelected(pokemon) {
   const pokemonTypes = pokemon.type.split(", ");
-
+  // some controlla che almeno un elemento dell'array corrisponda alla richiesta
+  // quindi, contrillo che almeno uno degli elementi (Some) sia incluso nell'array dei tipi selezionati
   return pokemonTypes.some((t) => selectedTypes.includes(t));
 }
 
@@ -58,6 +64,8 @@ export function addListerToPokemons() {
   for (let i = 0; i < pokemons.length; i++) {
     pokemons[i].addEventListener("click", function () {
       fetchPokemonData(pokemons[i].dataset.number);
+      pokemonModal.style.opacity= 1
+      pokemonModal.style.pointerEvents = 'auto'
     });
   }
   pokemons.foe;
@@ -138,4 +146,24 @@ export function displayPokemons() {
     pokemonCardsArray.push(createPokemonCard(pokemon));
   }
   pokedex.innerHTML = pokemonCardsArray.join("");
+}
+
+function createStats(stats) {
+  const statsList = []
+  for(const attribute of stats) {
+    const template = `
+      <div class="stat">
+        <strong>${attribute.stat.name}</strong>:
+        ${attribute.base_stat}
+      </div>`
+
+    statsList.push(template)
+  }
+  return statsList.join('')
+}
+
+export function editPokemonModal(data) {
+  pokemonImg.src = data.sprites.front_default
+  pokemonName.innerHTML = data.name;
+  statsContainer.innerHTML = createStats(data.stats)
 }
